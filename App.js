@@ -3,48 +3,54 @@ import { Button } from 'native-base';
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-// button array
-let itemArray = new Array(9).fill('empty');
+const newGameState = {
+  // button array
+  itemArray: new Array(9).fill('empty'),
+  xIsNext: true,
+  isCross: false,
+};
 
-export default class CardImageExample extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isCross: false,
-      winMessage: '',
-    };
+    this.state = newGameState;
   }
 
   drawItem = (itemNumber) => {
     // decide what to draw: circle or cross or default
-    if (itemArray[itemNumber] === 'empty') {
-      itemArray[itemNumber] = this.state.isCross;
-      this.setState({ isCross: !itemArray[itemNumber] });
+    if (this.state.itemArray[itemNumber] === 'empty') {
+      this.state.itemArray[itemNumber] = this.state.isCross;
+      this.setState({ isCross: !this.state.itemArray[itemNumber] });
     }
 
     // check for win
     this.winGame();
   };
 
+  displayTurn = () => {
+    // display who's turn it is
+    return this.state.xIsNext ? 'X' : 'O';
+  };
+
   chooseItemIcon = (itemNumber) => {
     // choose appropriate icon
-    if (itemArray[itemNumber] !== 'empty') {
-      return itemArray[itemNumber] ? 'cross' : 'circle';
+    if (this.state.itemArray[itemNumber] !== 'empty') {
+      return this.state.itemArray[itemNumber] ? 'cross' : 'circle';
     }
     return 'pencil';
   };
 
   chooseItemColor = (itemNumber) => {
     // choose color for icon
-    if (itemArray[itemNumber] !== 'empty') {
-      return itemArray[itemNumber] ? 'red' : 'green';
+    if (this.state.itemArray[itemNumber] !== 'empty') {
+      return this.state.itemArray[itemNumber] ? 'blue' : 'pink';
     }
     return 'black';
   };
 
   resetGame = () => {
     // reset all values and states
-    itemArray.fill('empty');
+    this.state.itemArray.fill('empty');
     this.setState({ winMessage: '' });
     // force update to the componenet
     this.forceUpdate();
@@ -53,68 +59,84 @@ export default class CardImageExample extends Component {
   winGame = () => {
     // check for winner
     if (
-      itemArray[0] !== 'empty' &&
-      itemArray[0] == itemArray[1] &&
-      itemArray[1] == itemArray[2]
+      this.state.itemArray[0] !== 'empty' &&
+      this.state.itemArray[0] == this.state.itemArray[1] &&
+      this.state.itemArray[1] == this.state.itemArray[2]
     ) {
       this.setState({
-        winMessage: (itemArray[0] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[0] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     } else if (
-      itemArray[3] !== 'empty' &&
-      itemArray[3] == itemArray[4] &&
-      itemArray[4] == itemArray[5]
+      this.state.itemArray[3] !== 'empty' &&
+      this.state.itemArray[3] == this.state.itemArray[4] &&
+      this.state.itemArray[4] == this.state.itemArray[5]
     ) {
       this.setState({
-        winMessage: (itemArray[0] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[0] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     } else if (
-      itemArray[6] !== 'empty' &&
-      itemArray[6] == itemArray[7] &&
-      itemArray[7] == itemArray[8]
+      this.state.itemArray[6] !== 'empty' &&
+      this.state.itemArray[6] == this.state.itemArray[7] &&
+      this.state.itemArray[7] == this.state.itemArray[8]
     ) {
       this.setState({
-        winMessage: (itemArray[6] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[6] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     } else if (
-      itemArray[0] !== 'empty' &&
-      itemArray[0] == itemArray[3] &&
-      itemArray[3] == itemArray[6]
+      this.state.itemArray[0] !== 'empty' &&
+      this.state.itemArray[0] == this.state.itemArray[3] &&
+      this.state.itemArray[3] == this.state.itemArray[6]
     ) {
       this.setState({
-        winMessage: (itemArray[0] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[0] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     } else if (
-      itemArray[1] !== 'empty' &&
-      itemArray[1] == itemArray[4] &&
-      itemArray[4] == itemArray[7]
+      this.state.itemArray[1] !== 'empty' &&
+      this.state.itemArray[1] == this.state.itemArray[4] &&
+      this.state.itemArray[4] == this.state.itemArray[7]
     ) {
       this.setState({
-        winMessage: (itemArray[1] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[1] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     } else if (
-      itemArray[2] !== 'empty' &&
-      itemArray[2] == itemArray[5] &&
-      itemArray[5] == itemArray[8]
+      this.state.itemArray[2] !== 'empty' &&
+      this.state.itemArray[2] == this.state.itemArray[5] &&
+      this.state.itemArray[5] == this.state.itemArray[8]
     ) {
       this.setState({
-        winMessage: (itemArray[2] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[2] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     } else if (
-      itemArray[0] !== 'empty' &&
-      itemArray[0] == itemArray[4] &&
-      itemArray[4] == itemArray[8]
+      this.state.itemArray[0] !== 'empty' &&
+      this.state.itemArray[0] == this.state.itemArray[4] &&
+      this.state.itemArray[4] == this.state.itemArray[8]
     ) {
       this.setState({
-        winMessage: (itemArray[0] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[0] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     } else if (
-      itemArray[2] !== 'empty' &&
-      itemArray[2] == itemArray[4] &&
-      itemArray[4] == itemArray[6]
+      this.state.itemArray[2] !== 'empty' &&
+      this.state.itemArray[2] == this.state.itemArray[4] &&
+      this.state.itemArray[4] == this.state.itemArray[6]
     ) {
       this.setState({
-        winMessage: (itemArray[2] ? 'Cross' : 'Circle').concat(' wins!'),
+        winMessage: (this.state.itemArray[2] ? 'Cross' : 'Circle').concat(
+          ' wins!'
+        ),
       });
     }
   };
