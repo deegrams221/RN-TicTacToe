@@ -16,8 +16,8 @@ export default class App extends Component {
     this.state = newGameState;
   }
 
+  // decide what to draw: circle or cross or default
   drawItem = (itemNumber) => {
-    // decide what to draw: circle or cross or default
     if (this.state.itemArray[itemNumber] === 'empty') {
       this.state.itemArray[itemNumber] = this.state.isCross;
       this.setState({ isCross: !this.state.itemArray[itemNumber] });
@@ -27,37 +27,37 @@ export default class App extends Component {
     this.winGame();
   };
 
+  // display who's turn it is
   displayTurn = () => {
-    // display who's turn it is
     return this.state.xIsNext ? 'X' : 'O';
   };
 
+  // choose appropriate icon
   chooseItemIcon = (itemNumber) => {
-    // choose appropriate icon
     if (this.state.itemArray[itemNumber] !== 'empty') {
       return this.state.itemArray[itemNumber] ? 'cross' : 'circle';
     }
     return 'pencil';
   };
 
+  // choose color for icon
   chooseItemColor = (itemNumber) => {
-    // choose color for icon
     if (this.state.itemArray[itemNumber] !== 'empty') {
-      return this.state.itemArray[itemNumber] ? 'blue' : 'pink';
+      return this.state.itemArray[itemNumber] ? 'blue' : 'red';
     }
     return 'black';
   };
 
+  // reset all values and states
   resetGame = () => {
-    // reset all values and states
     this.state.itemArray.fill('empty');
     this.setState({ winMessage: '' });
     // force update to the componenet
     this.forceUpdate();
   };
 
+  // check for winner
   winGame = () => {
-    // check for winner
     if (
       this.state.itemArray[0] !== 'empty' &&
       this.state.itemArray[0] == this.state.itemArray[1] &&
@@ -145,6 +145,10 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <View>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Tic-Tac-Toe</Text>
+          </View>
+
           <View style={styles.row}>
             <View style={styles.item}>
               <TouchableOpacity onPress={() => this.drawItem(0)}>
@@ -254,6 +258,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  headerText: {
+    fontSize: 35,
+    fontWeight: 'bold',
   },
   row: {
     flexDirection: 'row',
